@@ -95,9 +95,9 @@ class MenuItems extends Base
             if ($isUpdated) {
                 return $isUpdated; // Return true if update was successful
             } else {
-                throw new Exception('Error updating menu item.'); // Throw an exception if update failed
+                throw new \Exception('Error updating menu item.'); // Throw an exception if update failed
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage(); // Return the error message if an exception occurs
         }
     }
