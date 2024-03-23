@@ -3,12 +3,77 @@ const addItemModal = new bootstrap.Modal(
   document.getElementById("addItemModal"),
   {}
 );
+const editItemModal = new bootstrap.Modal(
+  document.getElementById("editItemModal"),
+  {}
+);
+
+//add binding for delete button
+function deleteItemBinding() {
+  $(".delete-btn").on("click", async function (e) {
+    e.preventDefault();
+    let $this = $(this);
+    const item_id = $this.data("item-id");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to remove this item from menu?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await deleteMenuItem(item_id);
+        if (response) {
+          const data = response.data;
+          if (data === true) {
+            // Find the parent <tr> element and remove it
+            $(this).closest("tr").remove();
+            swal.fire({
+              icon: "success",
+              title: "Menu item successfully deleted!",
+            });
+          }
+        }
+      }
+    });
+  });
+}
+
+//add binding for edit button
+function editItemBinding() {
+  $(".edit-btn").on("click", async function () {
+    let $this = $(this);
+    let itemId = $this.data("item-id");
+    let response = await getMenuItem(itemId);
+    if (response) {
+      const item = response.data;
+      const { Name, Description, Price, MenuItemId } = item;
+      console.log(item);
+      $("#editItemName").val(Name);
+      $("#editItemDescription").val(Description);
+      $("#editItemPrice").val(Price);
+      $("#editItemId").val(MenuItemId);
+      // Show the edit modal
+      editItemModal.show();
+    }
+
+    // Populate edit modal with item details
+  });
+}
+
 $(document).ready(async function () {
-  const response = await searchMenuItem("spag");
   $("#addItemBtn").on("click", function (e) {
     e.preventDefault();
     addItemModal.show();
   });
+
+  //add binding for delete button
+  deleteItemBinding();
+
+  //add binding for edit button
+  editItemBinding();
 
   $.validator.addMethod(
     "positiveNumber",
@@ -43,6 +108,32 @@ $(document).ready(async function () {
     },
     submitHandler: submitEventHandler,
   });
+
+  $("#editItemForm").validate({
+    rules: {
+      editItemName: {
+        required: true,
+      },
+      editItemDescription: {
+        required: true,
+      },
+      editItemPrice: {
+        required: true,
+        positiveNumber: true,
+      },
+    },
+    messages: {
+      editItemName: "Please enter menu item name",
+      editItemDescription: {
+        required: "Please enter the item description.",
+      },
+      editItemPrice: {
+        required: "Please enter the item price.",
+        positiveNumber: "Please enter a positive number for the price.",
+      },
+    },
+    submitHandler: editEventHandler,
+  });
 });
 
 async function searchMenuItem(data) {
@@ -69,9 +160,31 @@ async function createMenuItem(data) {
   }
 }
 
+async function updateMenuItem(menuId, data) {
+  try {
+    const result = await axios.put(`${apiUrl}/menu-item`, {
+      data,
+      menuId,
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
 async function getMenuItem($id) {
   try {
     const result = await axios.get(`${apiUrl}/menu-item?item=${$id}`);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function deleteMenuItem($id) {
+  try {
+    const result = await axios.delete(`${apiUrl}/menu-item?item=${$id}`);
     return result;
   } catch (error) {
     return error;
@@ -110,6 +223,44 @@ function submitEventHandler(form, event) {
   });
 }
 
+async function editEventHandler(form, event) {
+  event.preventDefault();
+  // const formData = $(form).serializeArray();
+  // console.log(formData);
+  const formData = {};
+  $(form)
+    .find(":input")
+    .each(function () {
+      const name = $(this).attr("name");
+      const value = $(this).val();
+      formData[name] = value;
+    });
+  if (formData) {
+    const { editItemName, editItemDescription, editItemPrice, editItemId } =
+      formData;
+    const data = {
+      name: editItemName,
+      description: editItemDescription,
+      price: parseFloat(editItemPrice),
+    };
+    const menuId = parseInt(editItemId);
+    const response = await updateMenuItem(menuId, data);
+    if (response) {
+      const isUpdated = response.data;
+      if (isUpdated) {
+        Swal.fire({
+          title: "Success",
+          text: "Menu item updated successfully",
+          icon: "success",
+        }).then(() => {
+          editItemModal.hide();
+          location.reload(); // Refresh the page
+        });
+      }
+    }
+  }
+}
+
 function appendNewRow(newItem) {
   // Create a new table row (tr) element
   const newRow = document.createElement("tr");
@@ -135,4 +286,7 @@ function appendNewRow(newItem) {
 
   // Append the new row to the table body
   document.getElementById("menuItemsList").appendChild(newRow);
+
+  deleteItemBinding();
+  editItemBinding();
 }

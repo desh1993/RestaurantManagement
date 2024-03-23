@@ -65,4 +65,40 @@ class MenuItems extends Base
         $menus = $this->ds->select($query, $paramType, $paramValue);
         return json_encode($menus, JSON_PRETTY_PRINT);
     }
+
+    public function deleteMenu($menuId)
+    {
+        $query = 'DELETE FROM MenuItems WHERE MenuItemId = ? ';
+        $paramType = 'i';
+        $paramArray = [$menuId];
+        $result = $this->ds->delete($query, $paramType, $paramArray);
+        return $result;
+    }
+
+    public function updateMenu($menuId, $data)
+    {
+        try {
+            $sql = 'UPDATE MenuItems SET Name = ?, Description = ?, Price = ? WHERE MenuItemId = ?';
+
+            $paramType = 'ssdi'; // Corrected parameter type for Price as a decimal or floating-point number
+
+            $params = [
+                $data->name,
+                $data->description,
+                $data->price,
+                $menuId // Use the function parameter $menuId here
+            ];
+
+            // Perform the update operation
+            $isUpdated = $this->ds->update($sql, $paramType, $params);
+
+            if ($isUpdated) {
+                return $isUpdated; // Return true if update was successful
+            } else {
+                throw new Exception('Error updating menu item.'); // Throw an exception if update failed
+            }
+        } catch (Exception $e) {
+            return $e->getMessage(); // Return the error message if an exception occurs
+        }
+    }
 }

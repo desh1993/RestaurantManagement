@@ -33,5 +33,19 @@ switch ($method) {
         $response = $menuItem->addMenuItems($body);
         echo json_encode($response);
         break;
+    case 'DELETE':
+        header('Content-Type: application/json');
+        $menuId = (int)$_GET['item'];
+        $response = $menuItem->deleteMenu($menuId);
+        echo json_encode($response);
+        break;
+    case 'PUT':
+        # code...
+        header('Content-Type: application/json');
+        $body = json_decode(file_get_contents('php://input'));
+        // $response = ['message' => 'Updating Menu.', 'data' => $body->data, 'menuId' => $body->menuId];
+        $response = $menuItem->updateMenu($body->menuId, $body->data);
+        echo json_encode($response);
+        break;
     default:
 }
