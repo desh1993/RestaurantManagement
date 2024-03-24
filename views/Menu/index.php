@@ -12,6 +12,8 @@ include './views/partials/navbar.php';
 
 $single_item = isset($_GET['item-id']) ? (int)$_GET['item-id'] : null;
 
+$is_admin = isset($_SESSION['role']) ? true : false
+
 ?>
 
 <div class="container mt-4">
@@ -20,17 +22,13 @@ $single_item = isset($_GET['item-id']) ? (int)$_GET['item-id'] : null;
         <?php include 'SingleItem.php'; ?>
     <?php else : ?>
         <div class="row">
-            <div class="col-md-6">
-                <button type="button" class="btn btn-primary mb-3" data-toggle="modal" id="addItemBtn">
-                    Add New Item
-                </button>
-            </div>
-            <!-- <div class="col-md-6">
-                <input type="text" class="form-control searchProduct" placeholder="Search Menu">
-                <div class="spinner-border loader-menu-items" role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <?php if ($is_admin) : ?>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" id="addItemBtn">
+                        Add New Item
+                    </button>
                 </div>
-            </div> -->
+            <?php endif; ?>
             <div class="col-md-6">
                 <div class="position-relative">
                     <input type="text" class="form-control searchMenu" placeholder="Search Menu">

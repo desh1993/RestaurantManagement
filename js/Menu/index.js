@@ -136,15 +136,6 @@ $(document).ready(async function () {
   });
 });
 
-async function searchMenuItem(data) {
-  try {
-    const result = await axios.get(`${apiUrl}/menu-item?search=${data}`);
-    return result;
-  } catch (error) {
-    return error;
-  }
-}
-
 async function createMenuItem(data) {
   try {
     const convertedObj = data.reduce((obj, item) => {

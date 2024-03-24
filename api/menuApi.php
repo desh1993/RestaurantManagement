@@ -25,6 +25,9 @@ switch ($method) {
             $menuId = (int)$_GET['item'];
             $response = $menuItem->getMenuById($menuId);
             echo json_encode($response);
+        } else if (isset($_GET['all'])) {
+            $response = $menuItem->getAllMenuItems();
+            echo json_encode($response);
         }
         break;
     case 'POST':
