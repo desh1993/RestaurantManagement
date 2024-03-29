@@ -80,47 +80,7 @@ $(document).ready(async function () {
     .bind("focus", function () {
       $(this).autocomplete("search");
     });
-  //   itemTableSelects
-  //     .autocomplete({
-  //       source: function (request, response) {
-  //         //   loadingIcon.show();
-  //         $.ajax({
-  //           dataType: "json",
-  //           url: `${apiUrl}/table?search=${request.term}`,
-  //           type: "GET",
-  //           success: function (data) {
-  //             console.log(data);
-  //             //   loadingIcon.hide();
-  //             if (data === null || data.length <= 0) {
-  //               return response([
-  //                 {
-  //                   label: "No Menu item",
-  //                   value: "no_menu_item",
-  //                 },
-  //               ]);
-  //             }
-  //             response(
-  //               $.map(data, function (item) {
-  //                 // your operation on data
-  //                 // return item.name;
-  //                 return {
-  //                   label: item.id,
-  //                   value: item.id,
-  //                   id: item.id,
-  //                 };
-  //               })
-  //             );
-  //           },
-  //         });
-  //       },
-  //       minLength: 0,
-  //       select: function (event, ui) {
-  //         const { item } = ui;
-  //       },
-  //     })
-  //     .bind("focus", function () {
-  //       $(this).autocomplete("search");
-  //     });
+
   $(".menu-item").autocomplete("option", "appendTo", "#addItemForm"); //so that dropdown appears inside the modal
   //   $("#itemTable").autocomplete("option", "appendTo", "#addItemForm");
 
