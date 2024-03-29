@@ -183,4 +183,14 @@ class Customers extends Base
         header("Location: $url");
         exit();
     }
+
+    public function searchCustomer($name)
+    {
+        $name = '%' . $name . '%';
+        $query = "SELECT * from Customers WHERE username LIKE ?";
+        $paramType = 's';
+        $paramValue = array($name);
+        $menus = $this->ds->select($query, $paramType, $paramValue);
+        return json_encode($menus, JSON_PRETTY_PRINT);
+    }
 }

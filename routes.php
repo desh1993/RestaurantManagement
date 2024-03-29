@@ -18,6 +18,7 @@ post($dir . '/logout', 'views/logout.php');
 
 //orders
 get($dir . '/orders', 'views/Orders/Index');
+get($dir . '/order-items/$orderId', 'views/OrderItems/Index');
 
 //API
 post($api_dir . '/menu-item', 'api/menuApi.php');
@@ -25,4 +26,12 @@ get($api_dir . '/menu-item', 'api/menuApi.php');
 delete($api_dir . '/menu-item', 'api/menuApi.php');
 put($api_dir . '/menu-item', 'api/menuApi.php');
 get($api_dir . '/table', 'api/tableApi.php');
+
+//Customers API
+get($api_dir . '/customers', 'api/customerApi.php');
+
+//Orders API
+post($api_dir . '/order', 'api/orderApi.php');
+post($api_dir . '/order-items', 'api/orderItemsApi.php');
+
 any('/404', 'views/404.php');

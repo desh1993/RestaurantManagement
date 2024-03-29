@@ -56,15 +56,6 @@ class MenuItems extends Base
         return $response;
     }
 
-    // public function searchMenu($name)
-    // {
-    //     $name = '%' . $name . '%';
-    //     $query = "SELECT * from MenuItems WHERE Name LIKE ?";
-    //     $paramType = 's';
-    //     $paramValue = array($name);
-    //     $menus = $this->ds->select($query, $paramType, $paramValue);
-    //     return json_encode($menus, JSON_PRETTY_PRINT);
-    // }
     public function searchMenu($name)
     {
         $name = '%' . $name . '%';

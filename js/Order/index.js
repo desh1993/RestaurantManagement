@@ -5,7 +5,6 @@ const addItemModal = new bootstrap.Modal(
 );
 const addMenuBtn = $("#addMenuBtn");
 const addItemForm = $("#addItemForm");
-const selectedMenuItem = {};
 
 let itemCount = 3;
 
@@ -134,7 +133,7 @@ function searchCustomerAutoComplete() {
                 // return item.name;
                 return {
                   label: item.username,
-                  value: parseInt(item.id),
+                  value: item.username,
                   id: item.id,
                 };
               })
@@ -145,6 +144,13 @@ function searchCustomerAutoComplete() {
       minLength: 0,
       select: function (event, ui) {
         const { item } = ui;
+        $(this).val(item.label);
+        const hiddenCustomerField =
+          $(this).siblings(".itemCustomerHidden").length > 0;
+        if (hiddenCustomerField) {
+          const hiddenCustomerItem = $(this).siblings(".itemCustomerHidden");
+          hiddenCustomerItem.val(parseInt(item.id));
+        }
       },
     })
     .bind("focus", function () {
@@ -226,7 +232,7 @@ async function submitEventHandler(form, event) {
     });
   const data = {
     tableId: parseInt(formData.itemTable),
-    customerId: parseInt(formData.itemCustomer),
+    customerId: parseInt(formData.itemCustomerHidden),
   };
   //this returns orderId
   const orderId = await addToOrder(data);

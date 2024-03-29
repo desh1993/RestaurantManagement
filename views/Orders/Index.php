@@ -9,6 +9,7 @@ $result = $orders->getOrders();
 $title = 'Orders';
 include './views/partials/header.php';
 include './views/partials/navbar.php';
+include './views/partials/admin_middleware.php';
 $is_admin = isset($_SESSION['role']) ? true : false
 
 ?>
@@ -41,20 +42,81 @@ $is_admin = isset($_SESSION['role']) ? true : false
                     </div>
                     <div class="mb-3">
                         <label for="itemCustomer" class="form-label">Customer</label>
-                        <input type="text" class="form-control" id="itemCustomer" name="itemCustomer">
+                        <input type="text" class="form-control" id="itemCustomer" name="itemCustomer" placeholder="Optional">
+                        <input type="hidden" class="form-control itemCustomerHidden" id="itemCustomer" name="itemCustomerHidden">
                     </div>
                     <div id="menuItemsContainer">
                         <div class="mb-3">
                             <label for="item-1" class="form-label">Choose Menu 1</label>
-                            <input type="text" class="menu-item form-control" id="item-1" name="item_1">
+                            <div>
+                                <div class="menu-item-input">
+                                    <input type="text" class="menu-item form-control" id="item-1" name="item_1">
+                                    <input type="hidden" name="item_1_hidden" class="menu-item-hidden">
+                                </div>
+                                <div class="quantity-input mt-3 d-flex justify-content-end">
+                                    <!-- Quantity -->
+                                    <div class="input-group mb-3 quantityDiv" style="max-width: 150px;" data-id="<?php echo $item['cart_id']; ?>">
+                                        <button class="btn btn-outline-primary decrease-quantity" type="button" onclick="this.nextElementSibling.stepDown()">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+
+                                        <input id="form1" min="1" name="item_1_quantity" value="1" type="number" class="form-control quantity-btn text-center" aria-label="Quantity" aria-describedby="quantity-label">
+
+                                        <button class="btn btn-outline-primary increase-quantity" type="button" data-id="item_1" onclick="this.previousElementSibling.stepUp()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Quantity -->
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="item-2" class="form-label">Choose Menu 2</label>
-                            <input type="text" class="menu-item form-control" id="item-2" name="item_2">
+                            <div>
+                                <div class="menu-item-input">
+                                    <input type="text" class="menu-item form-control" id="item-2" name="item_2">
+                                    <input type="hidden" name="item_2_hidden" class="menu-item-hidden">
+                                </div>
+                                <div class="quantity-input mt-3 d-flex justify-content-end">
+                                    <!-- Quantity -->
+                                    <div class="input-group mb-3 quantityDiv" style="max-width: 150px;" data-id="<?php echo $item['cart_id']; ?>">
+                                        <button class="btn btn-outline-primary decrease-quantity" type="button" onclick="this.nextElementSibling.stepDown()">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+
+                                        <input id="form1" min="1" name="item_2_quantity" value="1" type="number" class="form-control quantity-btn text-center" aria-label="Quantity" aria-describedby="quantity-label">
+
+                                        <button class="btn btn-outline-primary increase-quantity" type="button" data-id="item_2" onclick="this.previousElementSibling.stepUp()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Quantity -->
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="item-3" class="form-label">Choose Menu 3</label>
-                            <input type="text" class="menu-item form-control" id="item-3" name="item_3">
+                            <div>
+                                <div class="menu-item-input">
+                                    <input type="text" class="menu-item form-control" id="item-3" name="item_3">
+                                    <input type="hidden" name="item_3_hidden" class="menu-item-hidden" value="">
+                                </div>
+                                <div class="quantity-input mt-3 d-flex justify-content-end">
+                                    <!-- Quantity -->
+                                    <div class="input-group mb-3 quantityDiv" style="max-width: 150px;" data-id="<?php echo $item['cart_id']; ?>">
+                                        <button class="btn btn-outline-primary decrease-quantity" type="button" onclick="this.nextElementSibling.stepDown()">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+
+                                        <input id="form1" min="1" name="item_3_quantity" value="1" type="number" class="form-control quantity-btn text-center" aria-label="Quantity" aria-describedby="quantity-label">
+
+                                        <button class="btn btn-outline-primary increase-quantity" type="button" data-id="item_3" onclick="this.previousElementSibling.stepUp()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Quantity -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">

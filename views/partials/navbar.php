@@ -22,10 +22,14 @@ if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="menu">Menu</a>
-                </li>
+
                 <?php if ($displayItems) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="menu">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="orders">Orders</a>
+                    </li>
                     <form method="post" action="logout">
                         <button type="submit" class="nav nav-link">Logout</button>
                     </form>
