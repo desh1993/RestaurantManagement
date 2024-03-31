@@ -18,7 +18,7 @@ post($dir . '/logout', 'views/logout.php');
 
 //orders
 get($dir . '/orders', 'views/Orders/Index');
-get($dir . '/order-items/$orderId', 'views/OrderItems/Index');
+get($dir . '/order-items', 'views/OrderItems/Index');
 
 //API
 post($api_dir . '/menu-item', 'api/menuApi.php');
@@ -33,5 +33,6 @@ get($api_dir . '/customers', 'api/customerApi.php');
 //Orders API
 post($api_dir . '/order', 'api/orderApi.php');
 post($api_dir . '/order-items', 'api/orderItemsApi.php');
+get($api_dir . '/order-items', 'api/orderItemsApi.php');
 
 any('/404', 'views/404.php');

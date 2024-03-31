@@ -17,11 +17,12 @@ $url = API_URL . '/orders';
 
 switch ($method) {
     case 'GET':
-        // if (isset($_GET['search'])) {
-        //     $search = $_GET['search'];
+        // if (isset($_GET['orderId'])) {
+        //     $orderId = $_GET['orderId'];
         //     $results = $menuItem->searchMenu($search);
         //     echo $results;
-        // } else if (isset($_GET['item'])) {
+        // } 
+        // else if (isset($_GET['item'])) {
         //     $menuId = (int)$_GET['item'];
         //     $response = $menuItem->getMenuById($menuId);
         //     echo json_encode($response);

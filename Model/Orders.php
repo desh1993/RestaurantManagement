@@ -29,6 +29,15 @@ class Orders extends Base
         return $response;
     }
 
+    public function getOrderById($orderId)
+    {
+        $query = "SELECT * from $this->table WHERE id = ?";
+        $paramType = 'i';
+        $paramValue = array($orderId);
+        $response = $this->ds->select($query, $paramType, $paramValue);
+        return $response[0];
+    }
+
     private function generateOrderNumber($length = 6)
     {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';

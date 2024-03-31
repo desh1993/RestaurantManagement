@@ -67,7 +67,7 @@ class OrderItems extends Base
     {
         try {
             $query = "SELECT 
-            i.OrderId, i.Quantity as Quantity , m.Name , m.Price as PricePerItem , (m.Price * i.Quantity) as TotalPrice 
+            i.id,i.OrderId, i.Quantity as Quantity , m.Name , m.Price as PricePerItem , (m.Price * i.Quantity) as TotalPrice
             FROM `OrderItems` as i 
             INNER JOIN MenuItems as m 
             ON i.MenuId = m.MenuItemId 
@@ -76,6 +76,60 @@ class OrderItems extends Base
             $paramValue = array($orderId);
             $result = $this->ds->select($query, $paramType, $paramValue);
             return $result;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function getOrderItemsByTableId($tableId)
+    {
+        try {
+            $query = "SELECT
+            i.OrderId, 
+            i.Quantity as Quantity , 
+            m.Name , 
+            m.Price as PricePerItem , 
+            (m.Price * i.Quantity) as TotalPrice 
+            FROM orders as o
+            INNER JOIN OrderItems as i 
+            ON o.id = i.OrderId
+            INNER JOIN MenuItems as m
+            ON m.MenuItemId = i.MenuId
+            WHERE o.TableId = ?";
+            $paramType = 'i';
+            $paramValue = array($tableId);
+            $result = $this->ds->select($query, $paramType, $paramValue);
+            return $result;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    protected function convertOrderDetailsForUpdate($orderDetails)
+    {
+        $result = [];
+        foreach ($orderDetails as $item) {
+            $result[] = [$item->OrderId, $item->id, $item->Quantity];
+        }
+        return $result;
+    }
+
+    public function updateOrderItems($order_data)
+    {
+        try {
+            $isUpdated = null;
+            foreach ($order_data as $item) {
+                $sql = "UPDATE $this->table SET Quantity = ? WHERE OrderId = ? AND MenuId = ?";
+                $paramType = 'iii';
+                $params = [
+                    $item->OrderId,
+                    $item->id,
+                    $item->Quantity
+                ];
+                // //code...
+                $isUpdated = $this->ds->update($sql, $paramType, $params);
+            }
+            return  $isUpdated;
         } catch (\Exception $e) {
             return $e->getMessage();
         }
