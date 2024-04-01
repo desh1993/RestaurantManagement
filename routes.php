@@ -34,5 +34,6 @@ get($api_dir . '/customers', 'api/customerApi.php');
 post($api_dir . '/order', 'api/orderApi.php');
 post($api_dir . '/order-items', 'api/orderItemsApi.php');
 get($api_dir . '/order-items', 'api/orderItemsApi.php');
+put($api_dir . '/order-items', 'api/orderItemsApi.php');
 
 any('/404', 'views/404.php');

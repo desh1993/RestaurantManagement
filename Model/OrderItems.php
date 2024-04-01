@@ -109,28 +109,23 @@ class OrderItems extends Base
     {
         $result = [];
         foreach ($orderDetails as $item) {
-            $result[] = [$item->OrderId, $item->id, $item->Quantity];
+            // $result[] = [$item->OrderId, $item->id, $item->Quantity];
+            $result[] = [$item->Quantity, $item->OrderId, $item->id];
         }
         return $result;
     }
 
-    public function updateOrderItems($order_data)
+    public function updateOrderItems($order_data, $orderId)
     {
         try {
-            $isUpdated = null;
-            foreach ($order_data as $item) {
-                $sql = "UPDATE $this->table SET Quantity = ? WHERE OrderId = ? AND MenuId = ?";
-                $paramType = 'iii';
-                $params = [
-                    $item->OrderId,
-                    $item->id,
-                    $item->Quantity
-                ];
-                // //code...
-                $isUpdated = $this->ds->update($sql, $paramType, $params);
-            }
-            return  $isUpdated;
+            //code...
+            $sql = "UPDATE $this->table SET Quantity = ? WHERE OrderId = ? AND id = ?";
+            $params = $this->convertOrderDetailsForUpdate($order_data);
+            $paramTypes = 'iii';
+            $result = $this->ds->updateMultipleRows($sql, $paramTypes, $params);
+            return $result;
         } catch (\Exception $e) {
+            //throw $th;
             return $e->getMessage();
         }
     }

@@ -1,6 +1,6 @@
 import { apiUrl, baseUrl } from "../modules/config.js";
 
-let items = null; //to use to calculate Total
+let items = null; //to use to calculate Total & also to send it to server to update
 let itemCount = 1;
 const order_id_hidden = parseInt($(".order_id_hidden").val());
 
@@ -247,6 +247,18 @@ function addItemsBinding() {
   });
 }
 
+async function updateOrderItems(items, orderId) {
+  try {
+    const response = await axios.put(`${apiUrl}/order-items/`, {
+      data: items,
+      orderId,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
 $(document).ready(async function () {
   openModalBinding();
   addItemsBinding();
@@ -292,11 +304,20 @@ $(document).ready(async function () {
       cancelButtonColor: "#d33",
       confirmButtonText: "OK",
       cancelButtonText: "Cancel",
-    }).then((result) => {
+    }).then(async (result) => {
       // Check which button the user clicked
       if (result.isConfirmed) {
         // User clicked "OK" button
-        console.log(items);
+        const isUpdated = await updateOrderItems(items, order_id_hidden);
+        if (isUpdated) {
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "OrderItem updated successfully",
+            showConfirmButton: false,
+            timer: 1500, // Auto close after 1.5 seconds
+          });
+        }
         // Add your code here to proceed with the action
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // User clicked "Cancel" button or closed the alert

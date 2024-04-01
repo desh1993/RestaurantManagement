@@ -253,6 +253,36 @@ class DB
         }
     }
 
+    /***
+     * To UPDATE multiple rows(Haven't tested the code yet)
+     *
+     * @param string $query
+     * @param string $paramTypes
+     * @param array $params
+     * @return int
+     * 
+     * // Example usage
+     *  $query = "UPDATE table_name SET column1 = ?, column2 = ? WHERE id = ?";
+     * $paramTypes = 'ssi'; // Assuming s for string and i for integer
+     * $params = [
+     *      ['NewValue1', 'NewValue2', 1], // Update row with id 1
+     *      ['NewValue3', 'NewValue4', 2], // Update row with id 2
+     *      // Add more arrays for updating more rows
+     *  ];
+     *  $result = $yourObject->updateMultipleRows($query, $paramTypes, $params);
+     */
+    public function updateMultipleRows($query, $paramTypes, $params)
+    {
+        $stmt = $this->conn->prepare($query);
+        $result = null;
+        // Bind parameters for multiple rows
+        foreach ($params as $key => $values) {
+            $this->bindQueryParams($stmt, $paramTypes, $values);
+            $result = $stmt->execute();
+        }
+        return $result ? true : false;
+    }
+
     public function insertMultiple($query, $data = [])
     {
         $values = str_repeat('?,', count($data[0]) - 1) . '?'; //GIVES ? , ? , ?

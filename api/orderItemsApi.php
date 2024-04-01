@@ -47,11 +47,11 @@ switch ($method) {
         break;
     case 'PUT':
         // # code...
-        // header('Content-Type: application/json');
-        // $body = json_decode(file_get_contents('php://input'));
-        // // $response = ['message' => 'Updating Menu.', 'data' => $body->data, 'menuId' => $body->menuId];
-        // $response = $menuItem->updateMenu($body->menuId, $body->data);
-        // echo json_encode($response);
+        header('Content-Type: application/json');
+        $body = json_decode(file_get_contents('php://input'));
+        // $response = ['message' => 'Updating OrderItems.', 'data' => $body->data, 'orderId' => $body->orderId];
+        $response = $orderItems->updateOrderItems($body->data, $body->orderId);
+        echo json_encode($response);
         break;
     default:
 }

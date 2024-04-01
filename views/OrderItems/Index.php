@@ -36,7 +36,6 @@ if ($items !== null) {
         return $carry + $item['TotalPrice'];
     }, 0);
 }
-var_dump($orderResults);
 
 ?>
 
@@ -62,6 +61,7 @@ var_dump($orderResults);
             <thead>
                 <tr>
                     <th>Item</th>
+                    <th>OrderId</th>
                     <th>Name</th>
                     <th colspan="3">Quantity</th>
                     <th>Price Per Item</th>
@@ -74,6 +74,9 @@ var_dump($orderResults);
                     <tr class="<?php echo $item['id'] . '_row'; ?>">
                         <td>
                             <?php echo $key + 1 ?>
+                        </td>
+                        <td>
+                            <?php echo $item['id'] ?>
                         </td>
                         <td>
                             <?php echo $item['Name'] ?>
@@ -140,9 +143,6 @@ var_dump($orderResults);
                                     <input type="hidden" name="item_1_hidden" class="menu-item-hidden">
                                     <input type="hidden" name="item_1_price_hidden" class="item_1_price_hidden menu-price-hidden">
                                 </div>
-                                <!-- <div class="menu-price-input">
-                                    <input type="hidden" name="item_1_price_hidden" class="item_1_price_hidden menu-price-hidden">
-                                </div> -->
                                 <div class="quantity-input mt-3 d-flex justify-content-end">
                                     <!-- Quantity -->
                                     <div class="input-group mb-3 updateQuantityDiv" style="max-width: 150px;" data-id="<?php echo $orderResults['id']; ?>">
