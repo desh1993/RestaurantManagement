@@ -31,6 +31,7 @@ get($api_dir . '/table', 'api/tableApi.php');
 get($api_dir . '/customers', 'api/customerApi.php');
 
 //Orders API
+get($api_dir . '/order', 'api/orderApi.php');
 post($api_dir . '/order', 'api/orderApi.php');
 post($api_dir . '/order-items', 'api/orderItemsApi.php');
 get($api_dir . '/order-items', 'api/orderItemsApi.php');

@@ -32,3 +32,19 @@ ON o.id = i.OrderId
 INNER JOIN MenuItems as m
 ON m.MenuItemId = i.MenuId
 WHERE o.TableId = 7;
+
+
+--Search orders based on customer name or order number or table
+
+SELECT o.id as OrderId, 
+o.OrderNumber as OrderNumber , 
+o.TableId as TableNo, 
+o.CustomerId, 
+c.username as CustomerName
+FROM `Orders` as o
+INNER JOIN Customers AS c
+ON o.CustomerId = c.id
+WHERE 
+c.username LIKE '%jane%' 
+OR OrderNumber LIKE '%0tn%'
+OR TableId LIKE '%3%';

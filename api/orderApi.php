@@ -17,19 +17,11 @@ $url = API_URL . '/orders';
 
 switch ($method) {
     case 'GET':
-        // if (isset($_GET['orderId'])) {
-        //     $orderId = $_GET['orderId'];
-        //     $results = $menuItem->searchMenu($search);
-        //     echo $results;
-        // } 
-        // else if (isset($_GET['item'])) {
-        //     $menuId = (int)$_GET['item'];
-        //     $response = $menuItem->getMenuById($menuId);
-        //     echo json_encode($response);
-        // } else if (isset($_GET['all'])) {
-        //     $response = $menuItem->getAllMenuItems();
-        //     echo json_encode($response);
-        // }
+        if (isset($_GET['search'])) {
+            $search = $_GET['search'];
+            $results = $order->searchOrders($search);
+            echo $results;
+        }
         break;
     case 'POST':
         header('Content-Type: application/json');

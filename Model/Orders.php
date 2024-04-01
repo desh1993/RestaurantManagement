@@ -50,7 +50,6 @@ class Orders extends Base
         return $randomString;
     }
 
-
     public function addOrders($data)
     {
         try {
@@ -68,5 +67,27 @@ class Orders extends Base
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    //Search order by table number,customer name or order number
+    public function searchOrders($name)
+    {
+        $name = '%' . $name . '%';
+        $query = "SELECT o.id as OrderId, 
+        o.OrderNumber as OrderNumber , 
+        o.TableId as TableNo, 
+        o.CustomerId as CustomerId, 
+        c.username as CustomerName
+        FROM `Orders` as o
+        INNER JOIN Customers AS c
+        ON o.CustomerId = c.id
+        WHERE 
+        c.username LIKE ?
+        OR OrderNumber LIKE ?
+        OR TableId = ?";
+        $paramType = 'sss';
+        $paramValue = array($name, $name, $name);
+        $menus = $this->ds->select($query, $paramType, $paramValue);
+        return json_encode($menus, JSON_PRETTY_PRINT);
     }
 }
