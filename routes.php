@@ -33,6 +33,7 @@ get($api_dir . '/customers', 'api/customerApi.php');
 //Orders API
 get($api_dir . '/order', 'api/orderApi.php');
 post($api_dir . '/order', 'api/orderApi.php');
+delete($api_dir . '/order', 'api/orderApi.php');
 
 //Order Items API
 post($api_dir . '/order-items', 'api/orderItemsApi.php');

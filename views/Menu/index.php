@@ -65,9 +65,11 @@ $is_admin = isset($_SESSION['role']) ? true : false
                             <?php echo $item['Price'] ?>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm edit-btn" data-item-id="<?php echo $item['MenuItemId']  ?>
-                            data-bs-target=" #editItemModal" ">Edit</button>
-                            <button type=" button" class="btn btn-danger btn-sm delete-btn" data-item-id="<?php echo $item['MenuItemId'] ?>">Delete</button>
+                            <div class="d-flex justify-content-space-around">
+                                <button type="button" class="btn btn-primary btn-sm edit-btn" data-item-id="<?php echo $item['MenuItemId']  ?>
+                                data-bs-target=" #editItemModal" ">Edit</button>
+                                <button type=" button" class="btn btn-danger btn-sm delete-btn" data-item-id="<?php echo $item['MenuItemId'] ?>">Delete</button>
+                            </div>
                         </td>
                     </tr>
 

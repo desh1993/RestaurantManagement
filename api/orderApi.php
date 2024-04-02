@@ -30,10 +30,10 @@ switch ($method) {
         echo json_encode($response);
         break;
     case 'DELETE':
-        // header('Content-Type: application/json');
-        // $menuId = (int)$_GET['item'];
-        // $response = $menuItem->deleteMenu($menuId);
-        // echo json_encode($response);
+        header('Content-Type: application/json');
+        $orderId = (int)$_GET['orderId'];
+        $response = $order->deleteOrderById($orderId);
+        echo json_encode($response);
         break;
     case 'PUT':
         // # code...

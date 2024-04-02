@@ -266,12 +266,14 @@ function appendNewRow(newItem) {
       <td>${newItem.Description}</td>
       <td>${newItem.Price}</td>
       <td>
-          <button type="button" class="btn btn-primary btn-sm edit-btn" data-item-id="${
-            newItem.MenuItemId
-          }">Edit</button>
-          <button type="button" class="btn btn-danger btn-sm delete-btn" data-item-id="${
-            newItem.MenuItemId
-          }">Delete</button>
+          <div class="d-flex justify-content-space-around">
+            <button type="button" class="btn btn-primary btn-sm edit-btn" data-item-id="${
+              newItem.MenuItemId
+            }">Edit</button>
+            <button type="button" class="btn btn-danger btn-sm delete-btn" data-item-id="${
+              newItem.MenuItemId
+            }">Delete</button>
+          </div>
       </td>
   `;
 

@@ -46,13 +46,7 @@ function searchOrderAutoComplete() {
       select: function (event, ui) {
         const { item } = ui;
         console.log(item);
-        // $(this).val(item.label);
-        // const hasMenuItemHidden =
-        //   $(this).siblings(".menu-item-hidden").length > 0;
-        // if (hasMenuItemHidden) {
-        //   const hiddenMenuItem = $(this).siblings(".menu-item-hidden");
-        //   hiddenMenuItem.val(parseInt(item.id));
-        // }
+        window.location.href = `${baseUrl}/order-items?orderId=${item.id}`;
       },
     })
     .bind("focus", function () {
@@ -332,7 +326,7 @@ function validateForm() {
 }
 
 function openModalBinding() {
-  addItemModal.show();
+  // addItemModal.show();
   $("#addItemBtn").on("click", async function (e) {
     e.preventDefault();
     addItemModal.show();
@@ -356,6 +350,56 @@ async function addOrderItems(data) {
     return error;
   }
 }
+
+async function deleteOrder(id) {
+  try {
+    const response = await axios.delete(`${apiUrl}/order?orderId=${id}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
+function editBtn() {
+  $(".edit-btn").on("click", function () {
+    const id = $(this).attr("data-item-id");
+    window.location.href = `${baseUrl}/order-items?orderId=${id}`;
+  });
+}
+
+function deleteBtn() {
+  $(".delete-btn").on("click", async function () {
+    const id = $(this).attr("data-item-id");
+    Swal.fire({
+      icon: "warning",
+      title: "Warning!",
+      text: "This will delete Order",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "OK",
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      // Check if the user clicked the "OK" button
+      if (result.isConfirmed) {
+        const response = await deleteOrder(id);
+        if (response === true) {
+          Swal.fire({
+            title: "success",
+            text: "Order deleted successfully",
+            timer: 3000,
+            icon: "success",
+            showConfirmButton: false,
+            timerProgressBar: true, // Display a progress bar for the timer
+          });
+          setTimeout(function () {
+            location.reload(); // Reload the current page
+          }, 3000);
+        }
+      }
+    });
+  });
+}
+
 $(document).ready(function () {
   openModalBinding(); //show Modal
   addItemsBinding();
@@ -364,4 +408,6 @@ $(document).ready(function () {
   menuItemAutoComplete();
   searchCustomerAutoComplete();
   validateForm();
+  editBtn();
+  deleteBtn();
 });

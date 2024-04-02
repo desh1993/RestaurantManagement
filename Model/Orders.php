@@ -98,6 +98,7 @@ class Orders extends Base
     //Search order by table number,customer name or order number
     public function searchOrders($name)
     {
+        $id = $name;
         $name = '%' . $name . '%';
         $query = "SELECT o.id as OrderId, 
         o.OrderNumber as OrderNumber , 
@@ -111,9 +112,18 @@ class Orders extends Base
         c.username LIKE ?
         OR OrderNumber LIKE ?
         OR o.TableId = ?";
-        $paramType = 'sss';
-        $paramValue = array($name, $name, $name);
-        $menus = $this->ds->select($query, $paramType, $paramValue);
-        return json_encode($menus, JSON_PRETTY_PRINT);
+        $paramType = 'ssi';
+        $paramValue = array($name, $name, $id);
+        $orders = $this->ds->select($query, $paramType, $paramValue);
+        return json_encode($orders, JSON_PRETTY_PRINT);
+    }
+
+    public function deleteOrderById($orderId)
+    {
+        $query = "DELETE FROM $this->table WHERE id = ?";
+        $paramType = 'i';
+        $paramArray = [$orderId];
+        $result = $this->ds->delete($query, $paramType, $paramArray);
+        return $result;
     }
 }
