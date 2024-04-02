@@ -10,8 +10,16 @@ $title = 'Orders';
 include './views/partials/header.php';
 include './views/partials/navbar.php';
 include './views/partials/admin_middleware.php';
-$is_admin = isset($_SESSION['role']) ? true : false
+$is_admin = isset($_SESSION['role']) ? true : false;
 
+function convertDateString($dateString)
+{
+    // Create a DateTime object from the date string
+    $date = new DateTime($dateString);
+    // Format the date in a more elegant way (e.g., March 24, 2024 at 8:59 AM)
+    $formattedDate = $date->format("F j, Y \a\\t g:i A");
+    return $formattedDate;
+}
 ?>
 <div class="container mt-4">
     <h1>Orders</h1>
@@ -23,7 +31,63 @@ $is_admin = isset($_SESSION['role']) ? true : false
                 </button>
             </div>
         <?php endif; ?>
+        <div class="col-md-6">
+            <div class="position-relative">
+                <input type="text" class="form-control searchOrder" placeholder="Search Order by order number, customer or table no">
+                <div class="spinner-border loader-menu-items position-absolute end-0 top-0" role="status" style="display:none">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
     </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order Number</th>
+                <th>Table</th>
+                <th>Attended By</th>
+                <th>Total Amount</th>
+                <th>Customer</th>
+                <th>Ordered At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="orderItemsList">
+            <?php foreach ($result as $key => $item) :  ?>
+                <tr class="<?php echo $item['id'] . '_row'; ?>">
+                    <td>
+                        <?php echo $key + 1 ?>
+                    </td>
+                    <td>
+                        <?php echo $item['OrderNumber'] ?>
+                    </td>
+                    <td>
+                        <?php echo $item['TableId'] ?>
+                    </td>
+                    <td>
+                        <?php echo $item['Attended_by'] ?>
+                    </td>
+                    <td class="total">
+                        <?php echo $item['TotalAmount'] ?>
+                    </td>
+                    <td class="customer">
+                        <?php echo $item['CustomerName'] ?  $item['CustomerName'] : 'None'; ?>
+                    </td>
+                    <td class="ordered_at">
+                        <?php echo convertDateString($item['Ordered_At']) ?>
+                    </td>
+                    <td>
+                        <div class="btn-action">
+                            <button type=" button" class="btn btn-danger btn-sm delete-btn" data-item-id="<?php echo $item['id'] ?>">Delete</button>
+                            <button type=" button" class="btn btn-warning btn-sm edit-btn" data-item-id="<?php echo $item['id'] ?>">Update</button>
+                        </div>
+
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
 
 <!-- Add Order Modal -->

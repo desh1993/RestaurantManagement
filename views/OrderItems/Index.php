@@ -14,7 +14,7 @@ $orderResults = $orders->getOrderById($orderId);
 $orderNumber = null;
 $total = 0;
 
-$title = 'Orders';
+$title = 'Order-items';
 include './views/partials/header.php';
 include './views/partials/navbar.php';
 include './views/partials/admin_middleware.php';

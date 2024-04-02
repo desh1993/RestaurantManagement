@@ -258,14 +258,22 @@ async function updateOrderItems(items, orderId) {
     return error;
   }
 }
+async function deleteOrderItem(orderId) {
+  try {
+    const response = await axios.delete(
+      `${apiUrl}/order-items?orderId=${orderId}`
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
 
 $(document).ready(async function () {
   openModalBinding();
   addItemsBinding();
   menuItemAutoComplete();
   validateForm();
-  const total = $(".total-amount").text();
-
   const response = await getOrderItems(order_id_hidden);
   items = response;
 
@@ -323,6 +331,41 @@ $(document).ready(async function () {
         // User clicked "Cancel" button or closed the alert
         console.log("User clicked Cancel or closed the alert.");
         // Add code for handling cancellation or closing of the alert
+      }
+    });
+  });
+
+  $(".delete-btn").on("click", function () {
+    const dataId = $(this).attr("data-item-id");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to remove this item from ords?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const isDeleted = await deleteOrderItem(dataId);
+        if (isDeleted) {
+          swal
+            .fire({
+              icon: "success",
+              title: "Success!",
+              text: "OrderItem deleted successfully",
+              showConfirmButton: false,
+              timer: 1500, // Auto close after 1.5 seconds
+            })
+            .then(() => {
+              // Reload the page after 1.5 seconds
+              // location.reload();
+              $(`.${dataId}_row`).remove();
+              const item = items.find((item) => item.id == dataId);
+              items = items.filter((item) => item.id != dataId);
+              updateTotal();
+            });
+        }
       }
     });
   });

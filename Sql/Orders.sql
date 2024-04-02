@@ -48,3 +48,30 @@ WHERE
 c.username LIKE '%jane%' 
 OR OrderNumber LIKE '%0tn%'
 OR TableId LIKE '%3%';
+
+--Display Orders
+SELECT o.id as OrderId ,  
+o.TableId,
+CONCAT(s.FirstName, ' ', s.LastName) as Attended_by,
+subquery2.TotalAmount as TotalAmount,
+c.username as CustomerName
+FROM `Orders` as o
+LEFT JOIN Customers AS c
+ON o.CustomerId = c.id
+INNER JOIN Staff as s
+ON o.StaffId = s.id
+INNER JOIN (
+    SELECT subquery.OrderId , sum(subtotal) as TotalAmount
+    FROM (
+        SELECT i.OrderId , m.Name,m.Price * i.Quantity as subtotal
+        FROM `OrderItems` AS i
+        INNER JOIN Orders AS o
+        ON o.id = i.OrderId
+        INNER JOIN MenuItems AS m
+        ON m.MenuItemId = i.MenuId
+        ORDER BY i.OrderId
+    ) AS subquery
+    GROUP BY subquery.OrderId
+) AS subquery2
+ON o.id = subquery2.OrderId
+ ;

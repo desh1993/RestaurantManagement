@@ -129,4 +129,13 @@ class OrderItems extends Base
             return $e->getMessage();
         }
     }
+
+    public function deleteOrderItemById($orderId)
+    {
+        $query = "DELETE FROM $this->table WHERE id = ?";
+        $paramType = 'i';
+        $paramArray = [$orderId];
+        $result = $this->ds->delete($query, $paramType, $paramArray);
+        return $result;
+    }
 }

@@ -22,15 +22,6 @@ switch ($method) {
             $results = $orderItems->getOrderItemsByOrderId($orderId);
             echo json_encode($results);
         }
-
-        // else if (isset($_GET['item'])) {
-        //     $menuId = (int)$_GET['item'];
-        //     $response = $menuItem->getMenuById($menuId);
-        //     echo json_encode($response);
-        // } else if (isset($_GET['all'])) {
-        //     $response = $menuItem->getAllMenuItems();
-        //     echo json_encode($response);
-        // }
         break;
     case 'POST':
         header('Content-Type: application/json');
@@ -40,10 +31,10 @@ switch ($method) {
         echo json_encode($response);
         break;
     case 'DELETE':
-        // header('Content-Type: application/json');
-        // $menuId = (int)$_GET['item'];
-        // $response = $menuItem->deleteMenu($menuId);
-        // echo json_encode($response);
+        header('Content-Type: application/json');
+        $orderId = (int)$_GET['orderId'];
+        $response = $orderItems->deleteOrderItemById($orderId);
+        echo json_encode($response);
         break;
     case 'PUT':
         // # code...

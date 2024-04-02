@@ -8,6 +8,60 @@ const addItemForm = $("#addItemForm");
 
 let itemCount = 3;
 
+function searchOrderAutoComplete() {
+  const searchOrderSelect = $(".searchOrder");
+  searchOrderSelect
+    .autocomplete({
+      source: function (request, response) {
+        //   loadingIcon.show();
+        $.ajax({
+          dataType: "json",
+          url: `${apiUrl}/order?search=${request.term}`,
+          type: "GET",
+          success: function (data) {
+            //   loadingIcon.hide();
+            if (data === null || data.length <= 0) {
+              return response([
+                {
+                  label: "No Order",
+                  value: "no_order_item",
+                },
+              ]);
+            }
+            response(
+              $.map(data, function (item) {
+                // your operation on data
+                // return item.name;
+                return {
+                  label: item.OrderNumber,
+                  value: item.OrderNumber,
+                  id: item.OrderId,
+                };
+              })
+            );
+          },
+        });
+      },
+      minLength: 0,
+      select: function (event, ui) {
+        const { item } = ui;
+        console.log(item);
+        // $(this).val(item.label);
+        // const hasMenuItemHidden =
+        //   $(this).siblings(".menu-item-hidden").length > 0;
+        // if (hasMenuItemHidden) {
+        //   const hiddenMenuItem = $(this).siblings(".menu-item-hidden");
+        //   hiddenMenuItem.val(parseInt(item.id));
+        // }
+      },
+    })
+    .bind("focus", function () {
+      $(this).autocomplete("search");
+    });
+
+  // menuItemSelects.autocomplete("option", "appendTo", "#addItemForm"); //so that dropdown appears inside the modal
+}
+
 function tableItemsAutoComplete() {
   const itemTableSelects = $("#itemTable");
   itemTableSelects
@@ -305,6 +359,7 @@ async function addOrderItems(data) {
 $(document).ready(function () {
   openModalBinding(); //show Modal
   addItemsBinding();
+  searchOrderAutoComplete();
   tableItemsAutoComplete();
   menuItemAutoComplete();
   searchCustomerAutoComplete();
