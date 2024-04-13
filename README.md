@@ -34,9 +34,6 @@ FINAL YEAR PROJECT ECOMMERCE STORE
 8. Import Sql/Final.sql into PHPMYADMIN.
 
 9. Admin login
-
-   Username: admin1
-
-   Password: defaultpassword
-
-   URL: /RestaurantManagementSystem/admin
+   Username: admin1<br>
+   Password: defaultpassword<br>
+   URL: /RestaurantManagementSystem/admin<br>
