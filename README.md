@@ -32,3 +32,8 @@ FINAL YEAR PROJECT ECOMMERCE STORE
 7. Go to PHPMYADMIN and create a database by the name of restaurant-management-system
 
 8. Import Sql/Final.sql into PHPMYADMIN.
+
+9. Admin login
+   Username: admin1
+   Password: defaultpassword
+   URL: /RestaurantManagementSystem/admin
