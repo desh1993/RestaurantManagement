@@ -1,6 +1,6 @@
 # RESTAURANT MANAGEMENT SYSTEM
 
-FINAL YEAR PROJECT ECOMMERCE STORE
+FINAL YEAR PROJECT RESTAURANT MANAGEMENT SYSTEM
 
 1. Git clone it to htdocs(if on windows) and name the folder RestaurantManagementSystem (important to follow this name)
 
