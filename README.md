@@ -9,8 +9,8 @@ FINAL YEAR PROJECT ECOMMERCE STORE
 3. In config/index.php
    <?php
    define('DB_HOST', 'localhost'); <br>
-   define('DB_USERNAME', 'dbusername');  <br> //your phpmyadmin username <br>
-   define('DB_PASSWORD', 'dbpassword');  <br> //your phpmyadmin password <br>
+   define('DB_USERNAME', 'dbusername');  //your phpmyadmin username <br>
+   define('DB_PASSWORD', 'dbpassword'); //your phpmyadmin password <br>
    define('DB_NAME', 'restaurant-management-system'); //set this to db name  <br>
 
 
