@@ -42,7 +42,7 @@ o.TableId as TableNo,
 o.CustomerId, 
 c.username as CustomerName
 FROM `Orders` as o
-INNER JOIN Customers AS c
+LEFT JOIN Customers AS c
 ON o.CustomerId = c.id
 WHERE 
 c.username LIKE '%jane%' 
