@@ -258,6 +258,7 @@ async function updateOrderItems(items, orderId) {
     return error;
   }
 }
+
 async function deleteOrderItem(orderId) {
   try {
     const response = await axios.delete(
